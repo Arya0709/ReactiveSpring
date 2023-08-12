@@ -117,6 +117,29 @@ public class FluxAndMonoGeneratorService {
         return abcFlux.concatWith(defFlux).log();
     }
 
+
+    public Flux<String> explore_merge() {
+        var abcFlux = Flux.just("A", "B", "C")
+                .delayElements(Duration.ofMillis(100));
+        var defFlux = Flux.just("D", "E", "F")
+                .delayElements(Duration.ofMillis(125));
+        return Flux.merge(abcFlux, defFlux).log();
+    }
+
+    public Flux<String> explore_mergewith(){
+        var stuFlux = Flux.just("S","T","U")
+                .delayElements(Duration.ofMillis(100));
+        var xyzFlux = Flux.just("X","Y","Z")
+                .delayElements(Duration.ofMillis(125));
+        return stuFlux.mergeWith(xyzFlux).log();
+    }
+
+    public Flux<String> explore_mergewith_mono(){
+        var aMOno = Mono.just("A");
+        var bMono= Mono.just("B");
+        return aMOno.mergeWith(bMono).log();
+    }
+
     public Flux<String> namesMono_flatMapMany(int stringLength) {
         return Mono.just("vivek")
                 .map(String::toUpperCase)
